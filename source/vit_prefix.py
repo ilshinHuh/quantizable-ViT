@@ -13,7 +13,7 @@ class vitPrefix(nn.Module):
         
         self.pretrained_reg = torch.hub.load('facebookresearch/dinov2', 'dinov2_vitb14_reg').register_tokens
 
-    def forward(self, x, token_type='random', index=0, device='cuda', dataset=None):
+    def forward(self, x, token_type='random', index=100, device='cuda', dataset=None):
         B = x.shape[0]  # Batch size
                 
         # Get the patch embeddings from the model's patch embedding layer

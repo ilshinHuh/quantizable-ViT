@@ -93,7 +93,7 @@ output_dir = '../output'
 os.makedirs(output_dir, exist_ok=True)
 
 # Get a single image and label from the dataset
-fixed_index = 33  # Choose a fixed index for consistency
+fixed_index = 0  # Choose a fixed index for consistency
 input_image, label = dataset[fixed_index]
 input_image = input_image.unsqueeze(0).to(device)  # Add batch dimension
 
@@ -199,7 +199,7 @@ def plot_token_norms(activation_dict_def_model, activation_dict_pre_model, activ
     
     plt.tight_layout()
     plt.legend()
-    plt.savefig(os.path.join(output_dir, 'token_norms_33.png'), dpi=300)
+    plt.savefig(os.path.join(output_dir, 'token_norms_0.png'), dpi=300)
     plt.close()
     
 def plot_token_max(activation_dict_def_model, activation_dict_pre_model, activation_dict_rep_model, activation_dict_ran_model, output_dir):
@@ -246,7 +246,7 @@ def plot_token_max(activation_dict_def_model, activation_dict_pre_model, activat
     
     plt.tight_layout()
     plt.legend()
-    plt.savefig(os.path.join(output_dir, 'token_max_33.png'), dpi=300)
+    plt.savefig(os.path.join(output_dir, 'token_max_0.png'), dpi=300)
     plt.close()
     
 plot_token_norms(activation_dict_def_model, activation_dict_pre_model, activation_dict_rep_model, activation_dict_ran_model, output_dir)
