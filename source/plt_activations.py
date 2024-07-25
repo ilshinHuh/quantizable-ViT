@@ -134,28 +134,26 @@ for hook in hooks_ran_model:
 #     f.write(f'Predicted class: {predicted_class}\n')
 #     f.write(f'True label: {classes[label]}\n')
     
-# # Plot and save activations
-# def plot_activations(activation_dict, output_dir):
-#     num_blocks = len(activation_dict)
+# Plot and save activations
+def plot_activations(activation_dict, output_dir):
+    num_blocks = len(activation_dict)
 
-#     fig, axs = plt.subplots(1, num_blocks, figsize=(18 * num_blocks, 15))  # Adjust the figure size
-#     if num_blocks == 1:
-#         axs = [axs]
-#     for i, (layer, activation) in enumerate(activation_dict.items()):
-#         if activation.dim() == 3:  # Check if activation is a 3D tensor (batch size, sequence length, embedding dim)
-#             activation = torch.abs(activation).permute(0, 2, 1).cpu().numpy()  # Rearrange dimensions to (batch size, embedding dim, sequence length)
-#             im = axs[i].imshow(activation[0], aspect='auto', cmap='viridis', interpolation='none')
-#             fig.colorbar(im, ax=axs[i])
-#             axs[i].set_xlabel('Sequence Length')
-#             axs[i].set_ylabel('Embedding Dimension')
-#             axs[i].set_title(f'Block: {i}')
+    fig, axs = plt.subplots(1, num_blocks, figsize=(18 * num_blocks, 15))  # Adjust the figure size
+    if num_blocks == 1:
+        axs = [axs]
+    for i, (layer, activation) in enumerate(activation_dict.items()):
+        if activation.dim() == 3:  # Check if activation is a 3D tensor (batch size, sequence length, embedding dim)
+            activation = torch.abs(activation).permute(0, 2, 1).cpu().numpy()  # Rearrange dimensions to (batch size, embedding dim, sequence length)
+            im = axs[i].imshow(activation[0], aspect='auto', cmap='viridis', interpolation='none')
+            fig.colorbar(im, ax=axs[i])
+            axs[i].set_xlabel('Sequence Length')
+            axs[i].set_ylabel('Embedding Dimension')
+            axs[i].set_title(f'Block: {i}')
     
-#     plt.tight_layout()
-#     # plt.savefig(os.path.join(output_dir, f'merged_activations_repeat_{prefix_num}.png'))
-#     plt.savefig(os.path.join(output_dir, f'merged_activations_default.png'))
-#     plt.close()
-
-# plot_activations(activation_dict, output_dir)
+    plt.tight_layout()
+    # plt.savefig(os.path.join(output_dir, f'merged_activations_repeat_{prefix_num}.png'))
+    plt.savefig(os.path.join(output_dir, f'merged_activations_default.png'))
+    plt.close()
 
 def plot_token_norms(activation_dict_def_model, activation_dict_pre_model, activation_dict_rep_model, activation_dict_ran_model, output_dir):
     num_blocks = len(activation_dict_def_model)
@@ -253,3 +251,4 @@ def plot_token_max(activation_dict_def_model, activation_dict_pre_model, activat
     
 plot_token_norms(activation_dict_def_model, activation_dict_pre_model, activation_dict_rep_model, activation_dict_ran_model, output_dir)
 plot_token_max(activation_dict_def_model, activation_dict_pre_model, activation_dict_rep_model, activation_dict_ran_model, output_dir)
+# plot_activations(activation_dict, output_dir)
