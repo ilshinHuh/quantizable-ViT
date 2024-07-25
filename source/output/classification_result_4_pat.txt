@@ -1,0 +1,2 @@
+Predicted class: n02526121
+True label: n01440764

@@ -13,7 +13,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Load a pretrained Vision Transformer model from timm and modify the head for 1000 classes (ImageNet)
 # model = timm.create_model('vit_base_patch16_224', pretrained=True, num_classes=1000)
-prefix_num = 16
+prefix_num = 4
 model = vitPrefix(n = prefix_num)
 model.to(device)
 model.eval()
@@ -55,7 +55,7 @@ input_image = input_image.unsqueeze(0).to(device)  # Add batch dimension
 
 # Perform a forward pass to capture activations
 with torch.no_grad():
-    output = model(input_image, token_type='random_patch', index=10, device=device, dataset=dataset)
+    output = model(input_image, token_type='pretrained_reg')
     # output = model(input_image)
 
 # Unregister hooks

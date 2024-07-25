@@ -5,11 +5,13 @@ import torch.nn as nn
 import timm
 
 class vitPrefix(nn.Module):
-    def __init__(self, model_name='vit_base_patch16_224', pretrained=True, num_classes=1000, n=1):
+    def __init__(self, model_name='vit_base_patch16_224', pretrained=True, num_classes=1000, n=4):
         super(vitPrefix, self).__init__()
         self.n = n
         self.model = timm.create_model(model_name, pretrained=pretrained, num_classes=num_classes)
         self.embedding_dim = self.model.embed_dim
+        
+        self.pretrained_reg = torch.hub.load('facebookresearch/dinov2', 'dinov2_vitb14_reg').register_tokens
 
     def forward(self, x, token_type='random', index=0, device='cuda', dataset=None):
         B = x.shape[0]  # Batch size
@@ -31,6 +33,8 @@ class vitPrefix(nn.Module):
             tokens = x[:, 0:1, :].repeat(1, self.n, 1)
         elif token_type == 'random_patch':
             tokens = self.embed_random_image(index, device, dataset).repeat(1, self.n, 1)
+        elif token_type == 'pretrained_reg' and self.n == 4:
+            tokens = self.pretrained_reg.repeat(B, 1, 1)
         
         # Prepend the tokens to the sequence
         x = torch.cat((tokens, x), dim=1)
